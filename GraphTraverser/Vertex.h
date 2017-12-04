@@ -21,7 +21,8 @@ private:
 
 public:
     Vertex();
-    Vertex(int key);
+		Vertex(int key);
+		Vertex(int key, int weight);
     ~Vertex();
 
     /// <summary>

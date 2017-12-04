@@ -1,5 +1,5 @@
 #include "Vertex.h"
-
+#include "InsertionSort.h"
 Vertex::Vertex():m_key(0),m_size(0),m_pEHead(nullptr),m_pNext(nullptr)
 {
 }
@@ -7,6 +7,10 @@ Vertex::Vertex():m_key(0),m_size(0),m_pEHead(nullptr),m_pNext(nullptr)
 Vertex::Vertex(int key):Vertex()
 {
 	m_key = key;
+}
+
+Vertex::Vertex(int key, int weight):Vertex(key)
+{
 }
 
 Vertex::~Vertex()
@@ -36,19 +40,8 @@ int Vertex::Size() const
 
 void Vertex::AddEdge(int edgeKey, int weight)
 {
-	Edge * e = new Edge(edgeKey, weight);
-	if (!m_pEHead) {
-		m_pEHead = e;
-		m_size++;
-	}
-	else {
-		Edge * focus = m_pEHead;
-		while (focus->GetNext()) {
-			focus = focus->GetNext();
-		}
-		focus->SetNext(e);
-		m_size++;
-	}
+	input(&m_pEHead, edgeKey, weight);
+	m_size++;
 }
 
 Edge * Vertex::GetHeadOfEdge() const

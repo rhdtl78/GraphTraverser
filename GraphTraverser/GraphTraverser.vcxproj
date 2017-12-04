@@ -20,10 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{87F74FCC-63FC-41B3-8E3D-54E49040434A}</ProjectGuid>
+    <ProjectGuid>{2F4BD38E-429B-45BB-93F7-979AE454FB7E}</ProjectGuid>
     <RootNamespace>GraphTraverser</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
-    <ProjectName>GraphTraverser</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -112,31 +111,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="..\..\src\command.txt" />
-    <Text Include="..\..\src\error.log" />
-    <Text Include="..\..\src\mapdata.txt" />
-    <Text Include="..\..\src\result.log" />
+    <Text Include="command.txt" />
+    <Text Include="error.log" />
+    <Text Include="mapdata.txt" />
+    <Text Include="result.log" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Edge.cpp" />
-    <ClCompile Include="..\..\src\Graph.cpp" />
-    <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\Manager.cpp" />
-    <ClCompile Include="..\..\src\Vertex.cpp" />
+    <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Edge.h" />
-    <ClInclude Include="..\..\src\fileParser.h" />
-    <ClInclude Include="..\..\src\Graph.h" />
-    <ClInclude Include="..\..\src\Manager.h" />
-    <ClInclude Include="..\..\src\MinHeap.h" />
-    <ClInclude Include="..\..\src\Result.h" />
-    <ClInclude Include="..\..\src\Stack.h" />
-    <ClInclude Include="..\..\src\strSplit.h" />
-    <ClInclude Include="..\..\src\Vertex.h" />
+    <ClInclude Include="Edge.h" />
+    <ClInclude Include="fileParser.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="strSplit.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\Makefile" />
+    <None Include="Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

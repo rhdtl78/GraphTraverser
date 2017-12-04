@@ -15,58 +15,61 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\src\command.txt" />
-    <Text Include="..\..\src\error.log" />
-    <Text Include="..\..\src\mapdata.txt" />
-    <Text Include="..\..\src\result.log" />
+    <Text Include="command.txt" />
+    <Text Include="error.log" />
+    <Text Include="mapdata.txt" />
+    <Text Include="result.log" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Edge.cpp">
+    <ClCompile Include="Edge.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graph.cpp">
+    <ClCompile Include="Graph.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Manager.cpp">
+    <ClCompile Include="Manager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Vertex.cpp">
+    <ClCompile Include="Vertex.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Edge.h">
+    <ClInclude Include="Edge.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\fileParser.h">
+    <ClInclude Include="fileParser.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Graph.h">
+    <ClInclude Include="Graph.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Manager.h">
+    <ClInclude Include="Manager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\MinHeap.h">
+    <ClInclude Include="MinHeap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Result.h">
+    <ClInclude Include="Result.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Stack.h">
+    <ClInclude Include="Stack.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\strSplit.h">
+    <ClInclude Include="strSplit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Vertex.h">
+    <ClInclude Include="Vertex.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertionSort.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\Makefile" />
+    <None Include="Makefile" />
   </ItemGroup>
 </Project>

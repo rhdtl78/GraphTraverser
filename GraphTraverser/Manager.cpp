@@ -41,11 +41,21 @@ Result Manager::Load(const char* filepath)
 	fstream loadfile;
 	loadfile.open(filepath);
 	string * t;
-	t = fileParser(loadfile);
-	
-	while (t = fileParser(loadfile)) {
-		
+	t = fileParser(loadfile);	// Size of Graph
+	int size = stoi(t[0]);
+	int i = 0;
+	for (i = 0; i < size; i++) {
+		m_graph.AddVertex(i);
 	}
+	while (t = fileParser(loadfile)) {
+		i = 0;
+		for (int j = 1; j < size; j++) {
+			m_graph.AddEdge(i, j, stoi(t[j]));
+		}
+		i++;
+	}
+
+	return Result::Success;
 }
 /// <summary>
 /// print out the graph as matrix form
