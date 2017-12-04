@@ -1,6 +1,8 @@
 #include "Manager.h"
 #include <cstring>
-
+#include <fstream>
+#include "strSplit.h"
+#include "fileParser.h"
 Manager::~Manager()
 {
     if (fout.is_open())
@@ -36,7 +38,14 @@ void Manager::PrintError(Result result)
 /// </returns>
 Result Manager::Load(const char* filepath)
 {
-    // TODO: implement
+	fstream loadfile;
+	loadfile.open(filepath);
+	string * t;
+	t = fileParser(loadfile);
+	
+	while (t = fileParser(loadfile)) {
+		
+	}
 }
 /// <summary>
 /// print out the graph as matrix form
