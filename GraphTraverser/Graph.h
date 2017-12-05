@@ -3,7 +3,7 @@
 
 #include "Vertex.h"
 #include "Edge.h"
-
+#include <list>
 #include <fstream>
 #include <vector>
 
@@ -14,9 +14,13 @@ private:
     Vertex* m_pVHead;
     // the number of the vertics
     int m_vSize;
+		// In a weighted graph, we need to store vertex 
+		// and weight pair for every edge
+		std::list< std::pair<int, int> > *adj;
 
 public:
     Graph();
+		Graph(int vsize);
     ~Graph();
 
     /// <summary>
@@ -154,6 +158,7 @@ public:
     std::vector<int> FindShortestPathBellmanFord(int startVertexKey, int endVertexKey);
 
 		bool isEmpty();
+		void _initAdj(int size);
 };
 
 #endif

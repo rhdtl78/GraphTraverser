@@ -3,6 +3,7 @@
 #include <fstream>
 #include "strSplit.h"
 #include "fileParser.h"
+#include <stack>
 Manager::~Manager()
 {
     if (fout.is_open())
@@ -16,7 +17,7 @@ void Manager::Run(const char* filepath)
 {
     fout.open(RESULT_LOG_PATH);
     ferr.open(ERROR_LOG_PATH);
-
+		Result result;
 		fstream cmd;
 		cmd.open(filepath);
 		if (cmd.fail()) return;
@@ -25,17 +26,20 @@ void Manager::Run(const char* filepath)
 		while (t = fileParser(cmd))
 		{
 			if (t[0] == "LOAD") {
-				Load(t[1].c_str());
-				
+				result = Load(t[1].c_str());	
 			}
 			else if (t[0] == "PRINT") {
-				Print();
+				result = Print();
+			}
+			else if (t[0] == "DIJKSTRA") {
+				result = FindShortestPathDijkstraUsingSet(stoi(t[1]), stoi(t[2]));
 			}
 		}
 		system("pause");
 }
 void Manager::PrintError(Result result)
 {
+		std::cout << "Error code: " << result << std::endl;
     ferr << "Error code: " << result << std::endl;
 }
 
@@ -63,6 +67,7 @@ Result Manager::Load(const char* filepath)
 	for (i = 0; i < size; i++) {
 		m_graph.AddVertex(i);
 	}
+	m_graph._initAdj(size);
 	i = 0;
 	while (t = fileParser(loadfile)) {
 		for (int j = 0; j < size; j++) {
@@ -128,8 +133,25 @@ Result Manager::FindPathDfs(int startVertexKey, int endVertexKey)
 /// </returns>
 Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
-
-	return Result::Success;
+	try {
+		std::vector<int> dist = m_graph.FindShortestPathDijkstraUsingSet(startVertexKey, endVertexKey);
+		std::vector<int>::iterator i;
+		for (i = dist.begin(); i != dist.end(); i++) {
+			cout << (*i) << " --> ";
+		}
+		cout << endl;
+		return Result::Success;
+	}
+	catch (int err) {
+		if (err == 100) {
+			PrintError(Result::InvalidVertexKey);
+			return Result::InvalidVertexKey;
+		}
+		else if (err == 101) {
+			PrintError(Result::GraphNotExist);
+			return Result::GraphNotExist;
+		}
+	}
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Dijkstra using MinHeap

@@ -11,6 +11,16 @@ Graph::Graph()
 {
 	m_pVHead = nullptr;
 	m_vSize = 0;
+	adj = nullptr;
+}
+Graph::Graph(int vsize)
+{
+	m_vSize = vsize;
+	Vertex ** root = &m_pVHead;
+	for (int i = 0; i < m_vSize; i++) {
+		input<Vertex>(root, i, 0);
+	}
+	adj = new list< pair<int, int> >[m_vSize];
 }
 Graph::~Graph()
 {
@@ -34,11 +44,8 @@ void Graph::AddEdge(int startVertexKey, int endVertexKey, int weight)
 	if (t) {
 		t->AddEdge(endVertexKey, weight);
 	}
-	else {
-		input<Vertex>(&m_pVHead, startVertexKey, weight);
-		m_vSize++;
-		m_pVHead->AddEdge(endVertexKey, weight);
-	}
+	adj[endVertexKey].push_back(make_pair(startVertexKey, weight));
+	adj[startVertexKey].push_back(make_pair(endVertexKey, weight));
 }
 
 Vertex * Graph::FindVertex(int key)
@@ -117,18 +124,20 @@ std::vector<int> Graph::FindPathDfs(int startVertexKey, int endVertexKey)
 
 std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
+	if (m_pVHead = nullptr) throw 101; // Graph not Exist
+	if (!FindVertex(startVertexKey) || !FindVertex(endVertexKey)) throw 100;	// Invalidate Vertex Keys
 	// Create a set to store vertices that are being
 	// prerocessed
 	set< pair<int, int> > setds;
 
 	// Create a vector for distances and initialize all
-	// distances as infinite (INF)
-	vector<int> dist(V, INF);
+	// distances as infinite (infinite)
+	vector<int> dist(m_vSize, 0);
 
 	// Insert source itself in Set and initialize its
 	// distance as 0.
-	setds.insert(make_pair(0, src));
-	dist[src] = 0;
+	setds.insert(make_pair(0, startVertexKey));
+	dist[startVertexKey] = 0;
 
 	/* Looping till all shortest distance are finalized
 	then setds will become empty */
@@ -157,13 +166,13 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 			//  If there is shorter path to v through u.
 			if (dist[v] > dist[u] + weight)
 			{
-				/*  If distance of v is not INF then it must be in
+				/*  If distance of v is not I then it must be in
 				our set, so removing it and inserting again
 				with updated less distance.
 				Note : We extract only those vertices from Set
 				for which distance is finalized. So for them,
 				we would never reach here.  */
-				if (dist[v] != INF)
+				if (dist[v] != 0)
 					setds.erase(setds.find(make_pair(dist[v], v)));
 
 				// Updating distance of v
@@ -172,7 +181,7 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 			}
 		}
 	}
-	return std::vector<int>();
+	return dist;
 }
 
 std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
@@ -189,4 +198,9 @@ bool Graph::isEmpty()
 {
 	if (m_pVHead) return false;
 	return true;
+}
+
+void Graph::_initAdj(int size)
+{
+	adj = new list< pair<int, int> >[size];
 }
