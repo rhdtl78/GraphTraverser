@@ -77,3 +77,35 @@ private:
 };
 
 #endif
+
+template<typename TKey, typename TValue>
+inline void MinHeap<TKey, TValue>::Push(TKey key, TValue value)
+{
+}
+
+template<typename TKey, typename TValue>
+inline void MinHeap<TKey, TValue>::Pop()
+{
+}
+
+template<typename TKey, typename TValue>
+inline std::pair<TKey, TValue> MinHeap<TKey, TValue>::Top()
+{
+	return std::pair<TKey, TValue>();
+}
+
+template<typename TKey, typename TValue>
+inline bool MinHeap<TKey, TValue>::IsEmpty()
+{
+	return false;
+}
+
+template<typename TKey, typename TValue>
+inline void MinHeap<TKey, TValue>::DecKey(TValue target, TKey newKey)
+{
+}
+
+template<typename TKey, typename TValue>
+inline void MinHeap<TKey, TValue>::Heapify(int index)
+{
+}

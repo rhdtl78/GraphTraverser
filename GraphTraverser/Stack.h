@@ -58,3 +58,35 @@ public:
 };
 
 #endif
+
+template<typename T>
+inline Stack<T>::Stack()
+{
+}
+
+template<typename T>
+inline Stack<T>::~Stack()
+{
+}
+
+template<typename T>
+inline void Stack<T>::Push(T data)
+{
+}
+
+template<typename T>
+inline void Stack<T>::Pop()
+{
+}
+
+template<typename T>
+inline T Stack<T>::Top()
+{
+	return T();
+}
+
+template<typename T>
+inline bool Stack<T>::IsEmpty()
+{
+	return false;
+}

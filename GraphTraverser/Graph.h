@@ -152,6 +152,8 @@ public:
     /// for the special case, it would be others
     /// </returns>
     std::vector<int> FindShortestPathBellmanFord(int startVertexKey, int endVertexKey);
+
+		bool isEmpty();
 };
 
 #endif

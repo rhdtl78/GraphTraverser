@@ -12,7 +12,8 @@ string * fileParser(fstream & loadData) {
 	// Parse Game Data
 	if (!loadData.eof()) {
 		getline(loadData, buff);
-		return token = strSplit(buff, "\t");
+		token = strSplit(buff, " ");
+		return token;
 	}
 
 	return nullptr;

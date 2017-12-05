@@ -17,7 +17,22 @@ void Manager::Run(const char* filepath)
     fout.open(RESULT_LOG_PATH);
     ferr.open(ERROR_LOG_PATH);
 
-    // TODO: implement
+		fstream cmd;
+		cmd.open(filepath);
+		if (cmd.fail()) return;
+		string * t;
+		string * param;
+		while (t = fileParser(cmd))
+		{
+			if (t[0] == "LOAD") {
+				Load(t[1].c_str());
+				
+			}
+			else if (t[0] == "PRINT") {
+				Print();
+			}
+		}
+		system("pause");
 }
 void Manager::PrintError(Result result)
 {
@@ -40,17 +55,19 @@ Result Manager::Load(const char* filepath)
 {
 	fstream loadfile;
 	loadfile.open(filepath);
-	string * t;
+	if (loadfile.fail()) return Result::LoadFileNotExist;
+	string * t, * param;
 	t = fileParser(loadfile);	// Size of Graph
 	int size = stoi(t[0]);
 	int i = 0;
 	for (i = 0; i < size; i++) {
 		m_graph.AddVertex(i);
 	}
+	i = 0;
 	while (t = fileParser(loadfile)) {
-		i = 0;
-		for (int j = 1; j < size; j++) {
-			m_graph.AddEdge(i, j, stoi(t[j]));
+		for (int j = 0; j < size; j++) {
+			if(i!=j)
+				m_graph.AddEdge(i, j, stoi(t[j]));
 		}
 		i++;
 	}
@@ -67,7 +84,12 @@ Result Manager::Load(const char* filepath)
 /// </returns>
 Result Manager::Print()
 {
-    // TODO: implement
+	if (m_graph.isEmpty()) return Result::GraphNotExist;
+	else {
+		m_graph.Print(fout);
+		return Result::Success;
+	}
+
 }
 /// <summary>
 /// find the path from startVertexKey to endVertexKey with DFS (stack)
@@ -87,6 +109,7 @@ Result Manager::Print()
 Result Manager::FindPathDfs(int startVertexKey, int endVertexKey)
 {
     // TODO: implement
+	return Result::Success;
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Dijkstra using std::set
@@ -105,7 +128,8 @@ Result Manager::FindPathDfs(int startVertexKey, int endVertexKey)
 /// </returns>
 Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
-    // TODO: implement
+
+	return Result::Success;
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Dijkstra using MinHeap
@@ -125,6 +149,7 @@ Result Manager::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVert
 Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)
 {
     // TODO: implement
+	return Result::Success;
 }
 /// <summary>
 /// find the shortest path from startVertexKey to endVertexKey with Bellman-Ford
@@ -144,4 +169,5 @@ Result Manager::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int end
 Result Manager::FindShortestPathBellmanFord(int startVertexKey, int endVertexKey)
 {
     // TODO: implement
+	return Result::Success;
 }
