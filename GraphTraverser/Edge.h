@@ -51,6 +51,8 @@ public:
 	/// the next pointer of this edge
 	/// </returns>
 	Edge* GetNext() const;
+	void SeeAllEdges();
+
 };
 
 #endif

@@ -78,6 +78,8 @@ public:
     /// memory free for edges
     /// </summary>
     void Clear();
+		void SeeAllVertex();
+		Edge * FindEdge(int key);
 };
 
 #endif

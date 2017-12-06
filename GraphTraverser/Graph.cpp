@@ -4,7 +4,9 @@
 #include <iostream>
 #include "InsertionSort.h"
 #include <set>
-
+#include <cstdio>
+#include <queue>
+#include <functional>
 #define DFS_FIRST_PATH
 using namespace std;
 Graph::Graph()
@@ -32,6 +34,8 @@ void Graph::AddVertex(int vertexKey)
 	Vertex ** root = &m_pVHead;
 	input<Vertex>(root, vertexKey, 0);
 	m_vSize++;
+	m_pVHead->SeeAllVertex();
+	cout << endl;
 }
 
 void Graph::AddEdge(int startVertexKey, int endVertexKey, int weight)
@@ -43,9 +47,13 @@ void Graph::AddEdge(int startVertexKey, int endVertexKey, int weight)
 	}
 	if (t) {
 		t->AddEdge(endVertexKey, weight);
+		cout << t->GetKey() << " 의 인접 리스트 : ";
+		(t->GetHeadOfEdge())->SeeAllEdges();
+		cout << endl;
 	}
-	adj[endVertexKey].push_back(make_pair(startVertexKey, weight));
 	adj[startVertexKey].push_back(make_pair(endVertexKey, weight));
+
+	
 }
 
 Vertex * Graph::FindVertex(int key)
@@ -77,31 +85,20 @@ void Graph::Print(std::ofstream & fout)
 {
 	int size = m_vSize;
 	int ** data;
-	data = new int*[size];
-	for (int i = 0; i < size; i++) {
-		data[i] = new int[size];
-	}
-
+	data = makeMatrix();
+	if (!data) throw 202;
+	fout << "====== PRINT ======" << endl;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			data[i][j] = 0;
+			fout << data[i][j] << " ";
 		}
+		fout << endl;
 	}
-
-	Vertex * v = m_pVHead;
-	Edge * e;
-	for (v = m_pVHead; v != nullptr; v=v->GetNext()) {
-		for (e = v->GetHeadOfEdge(); e != nullptr; e = e->GetNext()) {
-			data[v->GetKey()][e->GetKey()] = e->GetWeight();
-		}
-	}
-
+	fout << "===================" << endl;
 	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			cout << data[i][j] << " ";
-		}
-		cout << endl;
+		delete data[i];
 	}
+	delete data;
 }
 
 bool Graph::IsNegativeEdge()
@@ -116,24 +113,141 @@ bool Graph::IsNegativeEdge()
 	}
 	return false;
 }
+bool Graph::isConnected(int x, int y) {
+	int ** data = makeMatrix();
+	return (data[x][y] != 0);
+}
+int ** Graph::makeMatrix()
+{
+	int size = m_vSize;
+	int ** data;
+	data = new int*[size];
+	for (int i = 0; i < size; i++) {
+		data[i] = new int[size];
+	}
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			data[i][j] = 0;
+		}
+	}
+
+	Vertex * v = m_pVHead;
+	Edge * e;
+	for (v = m_pVHead; v != nullptr; v = v->GetNext()) {
+		for (e = v->GetHeadOfEdge(); e != nullptr; e = e->GetNext()) {
+			data[v->GetKey()][e->GetKey()] = e->GetWeight();
+		}
+	}
+	return data;
+}
+
+vector<int> Graph::findWay(int startVertexKey, int endVertexKey, int dist)
+{
+	Stack<Vertex*> s;
+	int i = 0;
+	Vertex * v = FindVertex(startVertexKey);
+	Vertex * prev = v;
+	Edge * t = nullptr;
+	bool *visited = new bool[m_vSize];
+	int weight = 0;
+	std::vector<int> result;
+
+	for (i = 0; i < m_vSize; i++)
+		visited[i] = false;
+
+	s.Push(v);
+	visited[v->GetKey()] = true;
+	while (!s.IsEmpty()) {
+		Vertex * vt = s.Top();
+		if (vt != prev) {
+			t = prev->FindEdge(vt->GetKey());
+			weight += t->GetWeight();
+		}
+		if (weight > dist) {
+			weight -= t->GetWeight();
+			s.Pop();
+		}
+		else {
+			prev = vt;
+			result.push_back(vt->GetKey());
+			if (vt->GetKey() == endVertexKey) break;
+
+			t = vt->GetHeadOfEdge();
+			while (t) {
+				vt = FindVertex(t->GetKey());
+				t = t->GetNext();
+				s.Push(vt);
+			}
+		}
+	}
+	result.push_back(weight);
+	return result;
+}
+
+
 
 std::vector<int> Graph::FindPathDfs(int startVertexKey, int endVertexKey)
 {
-	return std::vector<int>();
+	if (m_pVHead == nullptr) throw 202;
+	if (0 > startVertexKey || 0 > endVertexKey) throw 201;
+	if (!FindVertex(startVertexKey) || !FindVertex(endVertexKey)) throw 200;	// Invalidate Vertex Keys
+	Stack<Vertex*> s;
+	int i = 0;
+	Vertex * v = FindVertex(startVertexKey);
+	Vertex * prev = v;
+	Edge * t;
+	bool *visited = new bool[m_vSize];
+	int weight = 0;
+	std::vector<int> result;
+
+	for (i = 0; i < m_vSize; i++)
+		visited[i] = false;
+
+	s.Push(v);
+	visited[v->GetKey()] = true;
+	while (!s.IsEmpty()) {
+		Vertex * vt = s.Top();
+		if (vt != prev) {
+			t = prev->FindEdge(vt->GetKey());
+			weight += t->GetWeight();
+		}
+		prev = vt;
+		result.push_back(vt->GetKey());
+		if (vt->GetKey() == endVertexKey) break;
+		t = vt->GetHeadOfEdge();
+
+
+		while (t) {
+			vt = FindVertex(t->GetKey());
+			t = t->GetNext();
+			s.Push(vt);
+		}
+	}
+	result.push_back(weight);
+	return result;
 }
 
+void watchDist(vector<int> dist) {
+	std::vector<int>::iterator it;            
+	for (it = dist.begin(); it != dist.end(); it++) {
+		cout << (*it) << " ";
+	}
+	cout << endl;
+}
 std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int endVertexKey)
 {
-	if (m_pVHead = nullptr) throw 101; // Graph not Exist
-	if (!FindVertex(startVertexKey) || !FindVertex(endVertexKey)) throw 100;	// Invalidate Vertex Keys
-	// Create a set to store vertices that are being
-	// prerocessed
+	cout << "Start : " << startVertexKey << endl;
+	cout << "Dest : " << endVertexKey << endl;
+	if (m_pVHead == nullptr) throw 202; // Graph not Exist
+	if (0 > startVertexKey || 0 > endVertexKey) throw 201;
+	if (!FindVertex(startVertexKey) || !FindVertex(endVertexKey)) throw 200;	// Invalidate Vertex Keys
+
 	set< pair<int, int> > setds;
-
+	Stack<Vertex*> s;
 	// Create a vector for distances and initialize all
-	// distances as infinite (infinite)
-	vector<int> dist(m_vSize, 0);
-
+	vector<int> dist(m_vSize, 999);
+	vector<int> result;
 	// Insert source itself in Set and initialize its
 	// distance as 0.
 	setds.insert(make_pair(0, startVertexKey));
@@ -148,12 +262,9 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 		pair<int, int> tmp = *(setds.begin());
 		setds.erase(setds.begin());
 
-		// vertex label is stored in second of pair (it
-		// has to be done this way to keep the vertices
-		// sorted distance (distance must be first item
-		// in pair)
 		int u = tmp.second;
-
+		cout << u << " ";
+		if (u == endVertexKey) break;
 		// 'i' is used to get all adjacent vertices of a vertex
 		list< pair<int, int> >::iterator i;
 		for (i = adj[u].begin(); i != adj[u].end(); ++i)
@@ -162,17 +273,10 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 			// of u.
 			int v = (*i).first;
 			int weight = (*i).second;
-
 			//  If there is shorter path to v through u.
 			if (dist[v] > dist[u] + weight)
 			{
-				/*  If distance of v is not I then it must be in
-				our set, so removing it and inserting again
-				with updated less distance.
-				Note : We extract only those vertices from Set
-				for which distance is finalized. So for them,
-				we would never reach here.  */
-				if (dist[v] != 0)
+				if (dist[v] != 999)
 					setds.erase(setds.find(make_pair(dist[v], v)));
 
 				// Updating distance of v
@@ -181,7 +285,9 @@ std::vector<int> Graph::FindShortestPathDijkstraUsingSet(int startVertexKey, int
 			}
 		}
 	}
-	return dist;
+	cout << endl;
+	result = findWay(startVertexKey, endVertexKey, dist[endVertexKey]);
+	return result;
 }
 
 std::vector<int> Graph::FindShortestPathDijkstraUsingMinHeap(int startVertexKey, int endVertexKey)

@@ -1,5 +1,6 @@
 #include "Vertex.h"
 #include "InsertionSort.h"
+#include <iostream>
 Vertex::Vertex():m_key(0),m_size(0),m_pEHead(nullptr),m_pNext(nullptr)
 {
 }
@@ -15,7 +16,7 @@ Vertex::Vertex(int key, int weight):Vertex(key)
 
 Vertex::~Vertex()
 {
-	// TODO : Destruct m_pEHead
+	Clear();
 }
 
 void Vertex::SetNext(Vertex * pNext)
@@ -57,4 +58,20 @@ void Vertex::Clear()
 		m_pEHead = m_pEHead->GetNext();
 		delete e;
 	}
+}
+
+void Vertex::SeeAllVertex()
+{
+	std::cout << m_key << " ";
+	if (m_pNext) m_pNext->SeeAllVertex();
+}
+
+Edge * Vertex::FindEdge(int key)
+{
+	Edge * t = m_pEHead;
+	while (t) {
+		if (t->GetKey() == key) return t;
+		t = t->GetNext();
+	}
+	return nullptr;
 }

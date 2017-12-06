@@ -1,6 +1,8 @@
 #ifndef MIN_HEAP_H
 #define MIN_HEAP_H
-
+#define LC(x) x*2 +1
+#define RC(x) x*2 +2
+#define PA(x) x/2
 #include <utility>
 #include <vector>
 
@@ -108,4 +110,5 @@ inline void MinHeap<TKey, TValue>::DecKey(TValue target, TKey newKey)
 template<typename TKey, typename TValue>
 inline void MinHeap<TKey, TValue>::Heapify(int index)
 {
+
 }

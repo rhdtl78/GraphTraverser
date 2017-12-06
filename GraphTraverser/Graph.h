@@ -159,6 +159,15 @@ public:
 
 		bool isEmpty();
 		void _initAdj(int size);
+		bool isConnected(int x, int y);
+		int ** makeMatrix();
+		struct compare {
+			bool operator()(Edge * a, Edge * b) {
+				return a->GetWeight() < b->GetWeight();	// 생각한 것과 반대 방향이다!
+			}
+		};
+		std::vector<int> findWay(int startVertexKey, int endVertexKey, int dist);
 };
+
 
 #endif

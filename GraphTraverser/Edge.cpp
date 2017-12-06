@@ -1,5 +1,5 @@
 #include "Edge.h"
-
+#include <iostream>
 Edge::Edge():m_key(0),m_weight(0),m_pNext(nullptr)
 {}
 
@@ -28,3 +28,11 @@ Edge * Edge::GetNext() const
 {
 	return m_pNext;
 }
+
+void Edge::SeeAllEdges()
+{
+	std::cout << "-->(접점 : " << m_key << ", 가중치 : " << m_weight << ")";
+	if (m_pNext) m_pNext->SeeAllEdges();
+}
+
+

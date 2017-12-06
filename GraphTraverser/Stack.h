@@ -61,32 +61,51 @@ public:
 
 template<typename T>
 inline Stack<T>::Stack()
-{
+{	
+	m_pTop = nullptr;
 }
 
 template<typename T>
 inline Stack<T>::~Stack()
 {
+	StackNode * t;
+	while (m_pTop) {
+		t = m_pTop;
+		m_pTop = m_pTop->pNext;
+		delete t;
+	}
 }
 
 template<typename T>
 inline void Stack<T>::Push(T data)
 {
+	if (!m_pTop) {
+		m_pTop = new StackNode(data);
+	}
+	else {
+		StackNode * t = new StackNode(data);
+		t->pNext = m_pTop;
+		m_pTop = t;
+	}
 }
 
 template<typename T>
 inline void Stack<T>::Pop()
 {
+	StackNode * t = m_pTop;
+	m_pTop = m_pTop->pNext;
+	delete t;
 }
 
 template<typename T>
 inline T Stack<T>::Top()
 {
-	return T();
+	return m_pTop->Data;
 }
 
 template<typename T>
 inline bool Stack<T>::IsEmpty()
 {
-	return false;
+	if (m_pTop) return false;
+	return true;
 }
